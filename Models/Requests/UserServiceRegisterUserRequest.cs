@@ -1,11 +1,14 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Text;
+using Task9.Clients;
 
 namespace Task9.Models.Requests
 {
     public class UserServiceRegisterUserRequest
     {
+        private readonly UserServiceClient _userService = new UserServiceClient();
+
         [JsonProperty("firstName")]
         public string FirstName;
 
@@ -28,6 +31,17 @@ namespace Task9.Models.Requests
         {
             FirstName = firstName;
             LastName = lastName;
+
+        }
+
+        public async Task<int> GenerateUserId()
+        {
+            this.SetBody(10);
+
+            HttpResponseMessage response = await _userService.RegisterUser(this);
+            int id = Int32.Parse(await response.Content.ReadAsStringAsync());
+
+            return id;
 
         }
     }

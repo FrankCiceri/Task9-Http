@@ -14,11 +14,7 @@ namespace Task9
     {
         private readonly UserServiceClient _userService = new UserServiceClient();
 
-        [SetUp]
-        public void Setup()
-        {
-
-        }
+        
         //2      
         [TestCase(null, null)]
         [TestCase("", null)]
@@ -65,19 +61,12 @@ namespace Task9
         {
             //Precondition
             UserServiceRegisterUserRequest requestBody = new UserServiceRegisterUserRequest();
-            requestBody.SetBody(10);
-
-
-            //Action
-
-            HttpResponseMessage response1 = await _userService.RegisterUser(requestBody);
-            int id1 = Int32.Parse(await response1.Content.ReadAsStringAsync());
+            int id1 = await requestBody.GenerateUserId();
 
             if (enableDelete)
                 await _userService.DeleteUser(id1);
 
-            HttpResponseMessage response2 = await _userService.RegisterUser(requestBody);
-            int id2 = Int32.Parse(await response2.Content.ReadAsStringAsync());
+            int id2 = await requestBody.GenerateUserId(); 
 
             //Assert
 
@@ -87,12 +76,8 @@ namespace Task9
         //11,20
         [Test]
         public async Task DeleteGetUser_NotActive_StatusCodeOK() {
-
             UserServiceRegisterUserRequest requestBody = new UserServiceRegisterUserRequest();
-            requestBody.SetBody(10);
-
-            HttpResponseMessage response = await _userService.RegisterUser(requestBody);
-            int id = Int32.Parse(await response.Content.ReadAsStringAsync());
+            int id = await requestBody.GenerateUserId();
 
             string getStatus = await _userService.GetUserStatus(id);
 
@@ -110,12 +95,8 @@ namespace Task9
         public async Task DeleteGetSetUser_NotExisting_StatusCodeInternalServerError()
         {
             UserServiceRegisterUserRequest requestBody = new UserServiceRegisterUserRequest();
-            requestBody.SetBody(10);
-
-            HttpResponseMessage response = await _userService.RegisterUser(requestBody);
-            int id = Int32.Parse(await response.Content.ReadAsStringAsync());
+            int id = await requestBody.GenerateUserId();
             await _userService.DeleteUser(id);
-
 
             string getStatus = await _userService.GetUserStatus(id);
             var setStatusCode = await _userService.SetUserStatus(id, true);
@@ -135,12 +116,8 @@ namespace Task9
         public async Task SetGetUser_StatusChange_StatusCodeInternalServerError(bool[] changes)
         {
             //Pre-Condition
-
             UserServiceRegisterUserRequest requestBody = new UserServiceRegisterUserRequest();
-            requestBody.SetBody(10);
-
-            HttpResponseMessage response = await _userService.RegisterUser(requestBody);
-            int id = Int32.Parse(await response.Content.ReadAsStringAsync());
+            int id = await requestBody.GenerateUserId();
 
             //Action
 
@@ -153,7 +130,7 @@ namespace Task9
             }
 
             string getStatus = await _userService.GetUserStatus(id);
-            Console.WriteLine(true);
+            
 
             //Assert
 

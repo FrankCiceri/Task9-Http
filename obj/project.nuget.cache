@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "d6hNiIBGugvDeMOZFmAAkqnloKkJcwepRO56mMl1O5IrBEDC12rhx4jRPYVK/xuMXt2F9EdW4JhdWgc9YK1Cww==",
+  "dgSpecHash": "e64RlFM9AnM3iCzErWifnC9bZzKaveEfn+gV5FjByUyDh9G9tH+baHqb3m60LwqXYPN5SGBWe7zCW6HpxG8xPQ==",
   "success": true,
   "projectFilePath": "D:\\Bootcamp AQA\\task9-Http\\Task9.csproj",
   "expectedPackageFiles": [
@@ -17,7 +17,7 @@
     "C:\\Users\\frank\\.nuget\\packages\\nuget.frameworks\\5.11.0\\nuget.frameworks.5.11.0.nupkg.sha512",
     "C:\\Users\\frank\\.nuget\\packages\\nunit\\3.13.3\\nunit.3.13.3.nupkg.sha512",
     "C:\\Users\\frank\\.nuget\\packages\\nunit.analyzers\\3.5.0\\nunit.analyzers.3.5.0.nupkg.sha512",
-    "C:\\Users\\frank\\.nuget\\packages\\nunit3testadapter\\4.3.0\\nunit3testadapter.4.3.0.nupkg.sha512",
+    "C:\\Users\\frank\\.nuget\\packages\\nunit3testadapter\\4.4.2\\nunit3testadapter.4.4.2.nupkg.sha512",
     "C:\\Users\\frank\\.nuget\\packages\\system.collections\\4.0.11\\system.collections.4.0.11.nupkg.sha512",
     "C:\\Users\\frank\\.nuget\\packages\\system.diagnostics.debug\\4.0.11\\system.diagnostics.debug.4.0.11.nupkg.sha512",
     "C:\\Users\\frank\\.nuget\\packages\\system.diagnostics.tools\\4.0.1\\system.diagnostics.tools.4.0.1.nupkg.sha512",
