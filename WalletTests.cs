@@ -10,19 +10,20 @@ namespace Task9
         private readonly UserServiceClient _userService = new UserServiceClient();
         private readonly WalletServiceClient _walletService = new WalletServiceClient();
        
-        //1,2,3
-        [TestCase(false)]
+        //2,3,
+        [TestCase(false)]        
         [TestCase(true)]
-        public async Task GetBalance_NotActiveUser_StatusResponse500(bool enableDelete) {
-
-            //Precondition            
+        public async Task GetBalance_NotActiveUser_StatusResponse500(bool enableDelete) 
+        {
+            //Precondition
+           
             UserServiceRegisterUserRequest requestBody = new UserServiceRegisterUserRequest();
             int id = await requestBody.GenerateUserId();
-
-
-            //Action
+          
             if (enableDelete)
                 await _userService.DeleteUser(id);
+
+            //Action
 
             HttpResponseMessage response = await _walletService.GetBalance(id);
 
@@ -31,6 +32,62 @@ namespace Task9
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.InternalServerError));
 
         }
+        //1,15
+        [Test]
+        public async Task GetBalance_ActiveUser_StatusResponseOK()
+        {
+            //Precondition
+            
+            UserServiceRegisterUserRequest requestBody = new UserServiceRegisterUserRequest();
+            int id = await requestBody.GenerateUserId();
+            await _userService.SetUserStatus(id, true);
+
+            //Action
+
+            HttpResponseMessage response = await _walletService.GetBalance(id);
+
+            //Assert
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+
+        }
+
+
+
+
+        [TestCase(0.01)]
+        [TestCase(0.01, true)]
+        [TestCase(9999999.99)]
+        [TestCase(10000000)]
+        public async Task GetBalance_OneTrasaction_StatusResponseExpected(double balance,bool negativeBalance = false)
+        {
+
+            UserServiceRegisterUserRequest requestBody = new UserServiceRegisterUserRequest();
+            int id = await requestBody.GenerateUserId();
+            await _userService.SetUserStatus(id, true);
+
+            WalletServiceChargeRequest requestChargeBody = new WalletServiceChargeRequest();
+            requestChargeBody.SetBody(id, balance);
+
+            await (negativeBalance ? requestChargeBody.SetNegativeBalance() : _walletService.Charge(requestChargeBody));
+            
+
+            //Action 
+
+            HttpResponseMessage response = await _walletService.GetBalance(id);
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
+
+            //Assert
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+
+        }
+
+
+
+
+
+
 
         //43,44
         [TestCase(false)]
